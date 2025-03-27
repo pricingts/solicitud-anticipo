@@ -1,7 +1,10 @@
+Authlib==1.5.1
+google-api-core==2.24.2
+google-api-python-client==2.166.0
+google-auth==2.38.0
 google-auth-oauthlib==1.2.1
 gspread==6.2.0
 numpy==2.2.4
-oauthlib==3.2.2
 pandas==2.2.3
 PyPDF2==3.0.1
 streamlit==1.44.0
