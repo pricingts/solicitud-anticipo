@@ -6,15 +6,19 @@ st.set_page_config(page_title="Solicitud de Anticipo", layout="wide")
 
 def identity_role(email):
     admin = [
-        "manager@tradingsolutions.com", "jsanchez@tradingsolutions.com", "pricing2@tradingsolutions.com", "pricing@tradingsolutions.com", "pricing@tradingsol.com"
+        "manager@tradingsolutions.com", "jsanchez@tradingsolutions.com", "pricing2@tradingsolutions.com", "pricing@tradingsolutions.com", "pricing@tradingsol.com",
+        "manager@tradingsol.com", "jsanchez@tradingsol.com", "pricing2@tradingsol.com", "pricing@tradingsol.com"
     ]
 
     commercial = [
         "sales2@tradingsolutions.com", "sales1@tradingsolutions.com", "sales3@tradingsolutions.com", "sales4@tradingsolutions.com", "sales@tradingsolutions.com",
-        "sales5@tradingsolutions.com", "bds@tradingsolutions.com", "insidesales@tradingsolutions.com"
+        "sales5@tradingsolutions.com", "bds@tradingsolutions.com", "insidesales@tradingsolutions.com",
+
+        "sales2@tradingsol.com", "sales1@tradingsol.com", "sales3@tradingsol.com", "sales4@tradingsol.com", "sales@tradingsol.com",
+        "sales5@tradingsol.com", "bds@tradingsol.com", "insidesales@tradingsol.com",
     ]
 
-    inside =["pricing7@tradingsolutions.com", "traffic2@traingsolutions.com"]
+    inside =["pricing7@tradingsolutions.com", "traffic2@traingsolutions.com", "pricing7@tradingsol.com", "traffic2@traingsol.com"]
 
     if email in admin:
         return "admin"
