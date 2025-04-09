@@ -27,7 +27,7 @@ def save_to_google_sheets(data, start_time):
             st.warning(f"Worksheet '{SHEET_NAME}' was created.")
             headers = [
                 "Time", "Commercial", "Cliente", "Customer Name", "Customer Phone", "Customer Email", "Container Type", "Service Type",
-                "Operation Type", "Reference", "Surcharges", "Total USD", "Total COP"
+                "Operation Type", "Reference", "Surcharges", "Total USD", "Total COP", "TRM", "Total en COP TRM"
             ]
 
             worksheet.append_row(headers)
@@ -43,6 +43,9 @@ def save_to_google_sheets(data, start_time):
     operation_type = data["operation_type"]
     reference = data["reference"]
     commercial = data["commercial"]
+
+    trm = data["trm"]
+    total_cop_trm = data["total_cop_trm"]
 
     container_list = data['container_type']
     containers = [
@@ -87,7 +90,7 @@ def save_to_google_sheets(data, start_time):
 
     row = [
         commercial, end_time_str, client, customer_name, customer_phone, customer_email, containers_str, 
-        transport_str, operation_type, reference, additional_surcharge_costs_str, usd_total, cop_total
+        transport_str, operation_type, reference, additional_surcharge_costs_str, usd_total, cop_total, trm, total_cop_trm
     ]
     worksheet.append_row(row)
 
@@ -177,6 +180,10 @@ def show(role):
 
     with st.expander("**Recargos**", expanded=True):
 
+        total_cop = 0
+
+        trm = st.number_input("Ingrese TRM hoy*", min_value=0.0, step=0.01, key="trm")
+
         if "additional_surcharges" not in st.session_state or not isinstance(st.session_state["additional_surcharges"], dict):
             st.session_state["additional_surcharges"] = {}
 
@@ -209,8 +216,15 @@ def show(role):
                     st.write(" ")
                     st.write(" ")
                     st.button("❌", key=f'remove_{cont}_{i}', on_click=remove_surcharge, args=(cont, i))
+                
+                if surcharge["currency"] == "USD":
+                    total_cop += surcharge["cost"] * trm
+                else:
+                    total_cop += surcharge["cost"]
 
             st.button(f"➕ Añadir Recargos", key=f"add_{cont}", on_click=add_surcharge, args=(cont,))
+
+    #st.markdown(f"### 💰 Total en COP: **{total_cop:,.2f}**")
 
     request_data = {
         "no_solicitud": no_solicitud,
@@ -224,7 +238,11 @@ def show(role):
         "operation_type": operation_type,
         "reference": reference,
         "additional_surcharges": st.session_state["additional_surcharges"],
+        "trm": trm,
+        "total_cop_trm": total_cop
     }
+
+    st.write(request_data)
 
     if st.button('Enviar Información'):
 

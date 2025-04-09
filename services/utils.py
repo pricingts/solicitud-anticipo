@@ -56,56 +56,56 @@ def user_data(commercial):
         "Sharon Zuñiga": {
             "name": "Sharon Zuñiga",
             "tel": "+57 (300) 510 0295",
-            "position": "Business Development Manager",
-            "email": "sales2@tradingsol.com"
+            "position": "Business Development Manager Latam & USA",
+            "email": "sales2@tradingsolutions.com"
         },
         "Irina Paternina": {
             "name": "Irina Paternina",
             "tel": "+57 (301) 3173340",
-            "position": "Business Development Manager",
-            "email": "sales1@tradingsol.com"
+            "position": "Business Executive",
+            "email": "sales1@tradingsolutions.com"
         },
         "Johnny Farah": {
             "name": "Johnny Farah",
             "tel": "+57 (301) 6671725",
             "position": "Manager of Americas",
-            "email": "sales3@tradingsol.com"
+            "email": "sales3@tradingsolutions.com"
         },
         "Jorge Sánchez": {
             "name": "Jorge Sánchez",
             "tel": "+57 (301) 7753510",
-            "position": "Business Development Manager",
-            "email": "sales4@tradingsol.com"
+            "position": "Reefer Department Manager",
+            "email": "sales4@tradingsolutions.com"
         },
         "Pedro Luis Bruges": {
             "name": "Pedro Luis Bruges",
             "tel": "+57 (304) 4969358",
-            "position": "Business Development Manager",
-            "email": "sales@tradingsol.com"
+            "position": "Global Sales Manager",
+            "email": "sales@tradingsolutions.com"
         },
         "Ivan Zuluaga": {
             "name": "Ivan Zuluaga",
             "tel": "+57 (300) 5734657",
-            "position": "Business Development Manager",
-            "email": "sales5@tradingsol.com"
+            "position": "Business Development Manager Latam & USA",
+            "email": "sales5@tradingsolutions.com"
         },
         "Andrés Consuegra": { 
             "name": "Andrés Consuegra",
             "tel": "+57 (301) 7542622",
             "position": "CEO",
-            "email": "manager@tradingsol.com"
+            "email": "manager@tradingsolutions.com"
         },
         "Stephanie Bruges": {
             "name": "Stephanie Bruges",
             "tel": "+57 300 4657077",
             "position": "Business Development Specialist",
-            "email": "bds@tradingsol.com"
+            "email": "bds@tradingsolutions.com"
         },
         "Catherine Silva": {
             "name": "Catherine Silva",
             "tel": "+57 304 4969351",
             "position": "Inside Sales",
-            "email": "insidesales@tradingsol.com"
+            "email": "insidesales@tradingsolutions.com"
         }
     }
 

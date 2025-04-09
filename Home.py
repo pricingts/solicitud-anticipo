@@ -6,11 +6,22 @@ st.set_page_config(page_title="Solicitud de Anticipo", layout="wide")
 
 def identity_role(email):
     admin = [
-        "manager@tradingsol.com", "pricing10@tradingsol.com", "pricing2@tradingsol.com", "pricing@tradingsol.com"
+        "manager@tradingsolutions.com", "jsanchez@tradingsolutions.com", "pricing2@tradingsolutions.com", "pricing@tradingsolutions.com", "pricing@tradingsol.com"
     ]
+
+    commercial = [
+        "sales2@tradingsolutions.com", "sales1@tradingsolutions.com", "sales3@tradingsolutions.com", "sales4@tradingsolutions.com", "sales@tradingsolutions.com",
+        "sales5@tradingsolutions.com", "bds@tradingsolutions.com", "insidesales@tradingsolutions.com"
+    ]
+
+    inside =["pricing7@tradingsolutions.com", "traffic2@traingsolutions.com"]
 
     if email in admin:
         return "admin"
+    elif email in inside:
+        return "inside"
+    elif email in commercial:
+        return "commercial"
     else:
         return None
 
@@ -32,7 +43,7 @@ if role is None:
 else:
     user = st.experimental_user.name
 
-    if role in ["commercial", "admin"]:
+    if role in ["commercial", "admin", "inside"]:
         with st.sidebar:
             page = st.radio("Go to", ["Home",  "Generar Documento"])
 
