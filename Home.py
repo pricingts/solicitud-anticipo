@@ -12,10 +12,10 @@ def identity_role(email):
 
     commercial = [
         "sales2@tradingsolutions.com", "sales1@tradingsolutions.com", "sales3@tradingsolutions.com", "sales4@tradingsolutions.com", "sales@tradingsolutions.com",
-        "sales5@tradingsolutions.com", "bds@tradingsolutions.com", "insidesales@tradingsolutions.com",
+        "sales5@tradingsolutions.com", "bds@tradingsolutions.com", "insidesales@tradingsolutions.com", "sales6@tradingsolutions.com", "sales5@tradingsolutions.com"
 
         "sales2@tradingsol.com", "sales1@tradingsol.com", "sales3@tradingsol.com", "sales4@tradingsol.com", "sales@tradingsol.com",
-        "sales5@tradingsol.com", "bds@tradingsol.com", "insidesales@tradingsol.com",
+        "sales5@tradingsol.com", "bds@tradingsol.com", "insidesales@tradingsol.com", "sales6@tradingsol.com", "sales5@tradingsol.com"
     ]
 
     inside =["pricing7@tradingsolutions.com", "traffic2@traingsolutions.com", "pricing7@tradingsol.com", "traffic2@traingsol.com"]

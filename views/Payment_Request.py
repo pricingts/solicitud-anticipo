@@ -122,12 +122,12 @@ def show(role):
             "Irina Paternina", "Stephanie Bruges"]
 
     with col1:
-        commercial = st.selectbox("Selecciona el Comercial*", commercial_op, key="commercial")
+        commercial = st.selectbox("Select Sales Rep*", commercial_op, key="commercial")
     with col2:
-        no_solicitud = st.text_input("Número de M*", key="no_solicitud")
+        no_solicitud = st.text_input("Operation Number (M)*", key="no_solicitud")
 
-    with st.expander("**Información del Cliente**",expanded=True):
-        client = st.selectbox("Cuál es tu Cliente?*", [" "] + ["+ Add New"] + clients_list, key="client")
+    with st.expander("**Client Information**",expanded=True):
+        client = st.selectbox("Select your Client*", [" "] + ["+ Add New"] + clients_list, key="client")
 
         new_client_saved = st.session_state.get("new_client_saved", False)
 
@@ -151,13 +151,13 @@ def show(role):
         col1, col2, col3 = st.columns(3)
 
         with col1:
-            customer_name = st.text_input("Nombre del Cliente*", key="customer_name")
+            customer_name = st.text_input("Customer Name*", key="customer_name")
         with col2:
-            customer_phone = st.text_input("Teléfono del Cliente", key="customer_phone")
+            customer_phone = st.text_input("Customer Phone", key="customer_phone")
         with col3:
-            customer_email = st.text_input("Email del Cliente", key="customer_email")
+            customer_email = st.text_input("Customer Email", key="customer_email")
     
-    with st.expander("**Información del Transporte**", expanded=True):
+    with st.expander("**Transport Information**", expanded=True):
         container_op = ["20' Dry Standard",
             "40' Dry Standard",
             "40' Dry High Cube",
@@ -168,21 +168,21 @@ def show(role):
             "Flat Rack 20'",
             "Flat Rack 40'"]
 
-        container_type= st.multiselect("Selecciona los Tipos de Contenedor*", container_op, key='container_type')
+        container_type= st.multiselect("Select Container Type(s)*", container_op, key='container_type')
         col4, col5, col6 = st.columns(3)
         transp_op = ['Flete Internacional', 'Transporte Terrestre', 'Agenciamiento ']
         with col4:
-            transport_type = st.multiselect("Selecciona el Tipo de Servicio*", transp_op, key="transport_type")
+            transport_type = st.multiselect("Select Service Type(s)*", transp_op, key="transport_type")
         with col5:
-            operation_type = st.text_input("Tipo de Operación*", key="operation_type")
+            operation_type = st.text_input("Operation Type*", key="operation_type")
         with col6:
-            reference = st.text_input("Referencia*", key="reference")
+            reference = st.text_input("Reference", key="reference")
 
-    with st.expander("**Recargos**", expanded=True):
+    with st.expander("**Surcharges**", expanded=True):
 
         total_cop = 0
 
-        trm = st.number_input("Ingrese TRM hoy*", min_value=0.0, step=0.01, key="trm")
+        trm = st.number_input("Enter TRM (USD to COP)*", min_value=0.0, step=0.01, key="trm")
 
         if "additional_surcharges" not in st.session_state or not isinstance(st.session_state["additional_surcharges"], dict):
             st.session_state["additional_surcharges"] = {}
@@ -204,13 +204,13 @@ def show(role):
                 col1, col2, col3, col4 = st.columns([2.5, 1, 0.5 ,0.5])
                 
                 with col1:
-                    surcharge["concept"] = st.text_input(f"Concepto*", surcharge["concept"], key=f'{cont}_concept_{i}')
+                    surcharge["concept"] = st.text_input(f"Concept*", surcharge["concept"], key=f'{cont}_concept_{i}')
                 
                 with col2: 
-                    surcharge["currency"] = st.selectbox(f"Moneda*", ['USD', 'COP'], key=f'{cont}_currency_{i}')
+                    surcharge["currency"] = st.selectbox(f"Currency*", ['USD', 'COP'], key=f'{cont}_currency_{i}')
                 
                 with col3:
-                    surcharge["cost"] = st.number_input(f"Costo*", min_value=0.0, step=0.01, value=surcharge["cost"], key=f'{cont}_cost_{i}')
+                    surcharge["cost"] = st.number_input(f"Cost*", min_value=0.0, step=0.01, value=surcharge["cost"], key=f'{cont}_cost_{i}')
                 
                 with col4:
                     st.write(" ")
@@ -242,33 +242,37 @@ def show(role):
         "total_cop_trm": total_cop
     }
 
-    st.write(request_data)
+    if st.button('Send Information'):
 
-    if st.button('Enviar Información'):
+        errors = validate_request_data(request_data)
 
-        save_to_google_sheets(request_data, start_time)
+        if errors:
+            for error in errors:
+                st.error(error)
+        else:
+            save_to_google_sheets(request_data, start_time)
 
-        st.success("Información Guardada con Éxito")
+            st.success("Information saved successfully!")
 
-        client_normalized = st.session_state.get("client", client).strip().lower() if client else ""
+            client_normalized = st.session_state.get("client", client).strip().lower() if client else ""
 
-        if client_normalized and all(c.strip().lower() != client_normalized for c in st.session_state["clients_list"]):
-            sheet = client_gcp.open_by_key(time_sheet_id)
-            worksheet = sheet.worksheet("clientes")
-            worksheet.append_row([st.session_state.get("client", client)])
-            st.session_state["clients_list"].append(client)
-            st.session_state["client"] = None
-            load_clients.clear()
-            st.rerun()
+            if client_normalized and all(c.strip().lower() != client_normalized for c in st.session_state["clients_list"]):
+                sheet = client_gcp.open_by_key(time_sheet_id)
+                worksheet = sheet.worksheet("clientes")
+                worksheet.append_row([st.session_state.get("client", client)])
+                st.session_state["clients_list"].append(client)
+                st.session_state["client"] = None
+                load_clients.clear()
+                st.rerun()
 
-        pdf_filename = generate_pdf(request_data)
+            pdf_filename = generate_pdf(request_data)
 
-        with open(pdf_filename, "rb") as f:
-            pdf_bytes = f.read()
+            with open(pdf_filename, "rb") as f:
+                pdf_bytes = f.read()
 
-        st.download_button(
-            label="Descargar Archivo",
-            data=pdf_bytes,
-            file_name="Solicitud de Anticipo.pdf",
-            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-        )
+            st.download_button(
+                label="Download PDF",
+                data=pdf_bytes,
+                file_name="Solicitud de Anticipo.pdf",
+                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            )
