@@ -222,7 +222,7 @@ def show(role):
                 else:
                     total_cop += surcharge["cost"]
 
-            st.button(f"➕ Añadir Recargos", key=f"add_{cont}", on_click=add_surcharge, args=(cont,))
+            st.button(f"➕ Add Surcharges", key=f"add_{cont}", on_click=add_surcharge, args=(cont,))
 
     #st.markdown(f"### 💰 Total en COP: **{total_cop:,.2f}**")
 
