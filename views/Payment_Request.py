@@ -4,6 +4,7 @@ from services.utils import *
 from datetime import datetime
 import pytz
 from services.write_pdf import generate_pdf
+import math
 
 colombia_timezone = pytz.timezone('America/Bogota')
 
@@ -181,6 +182,7 @@ def show(role):
     with st.expander("**Surcharges**", expanded=True):
 
         total_cop = 0
+        total_cop_rounded = 0
 
         trm = st.number_input("Enter TRM (USD to COP)*", min_value=0.0, step=0.01, key="trm")
 
@@ -221,10 +223,10 @@ def show(role):
                     total_cop += surcharge["cost"] * trm
                 else:
                     total_cop += surcharge["cost"]
+            
+            total_cop_rounded = math.ceil(total_cop)
 
             st.button(f"➕ Add Surcharges", key=f"add_{cont}", on_click=add_surcharge, args=(cont,))
-
-    #st.markdown(f"### 💰 Total en COP: **{total_cop:,.2f}**")
 
     request_data = {
         "no_solicitud": no_solicitud,
@@ -239,7 +241,7 @@ def show(role):
         "reference": reference,
         "additional_surcharges": st.session_state["additional_surcharges"],
         "trm": trm,
-        "total_cop_trm": total_cop
+        "total_cop_trm": total_cop_rounded
     }
 
     if st.button('Send Information'):
