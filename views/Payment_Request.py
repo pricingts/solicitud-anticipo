@@ -183,6 +183,7 @@ def show(role):
 
         total_cop = 0
         total_cop_rounded = 0
+        formatted_total = ""
 
         trm = st.number_input("Enter TRM (USD to COP)*", min_value=0.0, step=0.01, key="trm")
 
@@ -224,7 +225,9 @@ def show(role):
                 else:
                     total_cop += surcharge["cost"]
             
-            total_cop_rounded = math.ceil(total_cop)
+            total_cop_rounded =  math.ceil(total_cop * 100) / 100
+
+            formatted_total = f"${total_cop_rounded:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".") + " COP"
 
             st.button(f"➕ Add Surcharges", key=f"add_{cont}", on_click=add_surcharge, args=(cont,))
 
@@ -241,7 +244,7 @@ def show(role):
         "reference": reference,
         "additional_surcharges": st.session_state["additional_surcharges"],
         "trm": trm,
-        "total_cop_trm": total_cop_rounded
+        "total_cop_trm": formatted_total
     }
 
     if st.button('Send Information'):

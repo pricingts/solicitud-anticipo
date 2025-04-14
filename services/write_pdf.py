@@ -113,7 +113,7 @@ def create_overlay(data, overlay_path):
     table_width, table_height = table.wrapOn(c, 0, 0)
     table.drawOn(c, x, y - table_height)
 
-    totales_str = f"${data.get('total_cop_trm'):.2f} COP"
+    totales_str = f"{data.get('total_cop_trm')}"
 
     c.setFont("OpenSauceBold", 9)
     c.drawString(395, 240, totales_str)
