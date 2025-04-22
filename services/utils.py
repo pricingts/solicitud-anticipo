@@ -148,10 +148,5 @@ def validate_request_data(data):
                 errors.append(f"⚠️ Please select a valid currency for surcharge in '{cont}' #{i+1}.")
             if surcharge.get("cost", 0.0) <= 0:
                 errors.append(f"⚠️ The surcharge amount in '{cont}' #{i+1} must be greater than 0.")
-            if surcharge.get("currency") == "USD":
-                requires_trm = True
-
-    if requires_trm and data.get("trm", 0.0) <= 0:
-        errors.append("⚠️ A valid TRM is required when surcharges are in USD.")
 
     return errors
