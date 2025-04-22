@@ -177,7 +177,7 @@ def show(role):
         with col5:
             operation_type = st.text_input("Operation Type*", key="operation_type")
         with col6:
-            reference = st.text_input("Reference", key="reference")
+            reference = st.text_input("Customer Reference", key="reference")
 
     with st.expander("**Surcharges**", expanded=True):
 

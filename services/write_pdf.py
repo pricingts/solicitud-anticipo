@@ -73,7 +73,11 @@ def create_overlay(data, overlay_path):
 
     c.drawString(300, 570, transport_type)
     c.drawString(300, 558, f"Tipo de Operación: {data.get('operation_type')}")
-    c.drawString(300, 546, f"Referencia: {data.get('reference')}")
+
+    reference = data.get("reference", "")
+
+    if reference.strip():
+        c.drawString(300, 546, f"Referencia de cliente: {reference}")
 
     table_data = []
     total_cost_by_currency = {}
