@@ -7,7 +7,7 @@ st.set_page_config(page_title="Solicitud de Anticipo", layout="wide")
 def identity_role(email):
     admin = [
         "manager@tradingsolutions.com", "jsanchez@tradingsolutions.com", "pricing2@tradingsolutions.com", "pricing@tradingsolutions.com", "pricing@tradingsol.com",
-        "manager@tradingsol.com", "jsanchez@tradingsol.com", "pricing2@tradingsol.com", "pricing@tradingsol.com"
+        "manager@tradingsol.com", "jsanchez@tradingsol.com", "pricing2@tradingsol.com", "sjaafar@tradingsol.com"
     ]
 
     commercial = [
