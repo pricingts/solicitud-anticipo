@@ -32,7 +32,7 @@ def identity_role(email):
 @st.dialog("Warning", width="large")
 def non_identiy():
     st.write("Dear user, it appears that you do not have an assigned role on the platform. This might restrict your access to certain features. Please contact the support team to have the appropriate role assigned. Thank you!")
-    st.write("pricing@tradingsol.com")
+    st.write("sjaafar@tradingsolutions.com")
 
 col1, col2, col3 = st.columns([1, 2, 1])
 
