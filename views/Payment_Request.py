@@ -181,12 +181,6 @@ def show(role):
 
     with st.expander("**Surcharges**", expanded=True):
 
-        total_cop = 0
-        total_cop_rounded = 0
-        formatted_total = ""
-
-        trm = st.number_input("Enter TRM (USD to COP)*", min_value=0.0, step=0.01, key="trm")
-
         if "additional_surcharges" not in st.session_state or not isinstance(st.session_state["additional_surcharges"], dict):
             st.session_state["additional_surcharges"] = {}
 
@@ -196,40 +190,57 @@ def show(role):
         def add_surcharge(container):
             st.session_state["additional_surcharges"][container].append({"concept": "", "currency": "", "cost": 0.0})
 
+        all_surcharges = []
         for cont in container_type:
             if cont not in st.session_state["additional_surcharges"]:
                 st.session_state["additional_surcharges"][cont] = []
+
+            all_surcharges.extend(st.session_state["additional_surcharges"][cont])
+
+        currencies = {s["currency"] for s in all_surcharges if s["currency"]}
+
+        need_trm = "USD" in currencies and "COP" in currencies
+
+        if need_trm:
+            trm = st.number_input("Enter TRM (USD to COP)*", min_value=0.0, step=0.01, key="trm")
+        else:
+            trm = None
+
+        total = 0
+        currency_total = "COP" if currencies == {"COP"} else "USD" if currencies == {"USD"} else "COP"
 
         for cont in container_type:
             st.write(f"**{cont}**")
 
             for i, surcharge in enumerate(st.session_state["additional_surcharges"][cont]):
-                col1, col2, col3, col4 = st.columns([2.5, 1, 0.5 ,0.5])
-                
+                col1, col2, col3, col4 = st.columns([2.5, 1, 0.5, 0.5])
+
                 with col1:
                     surcharge["concept"] = st.text_input(f"Concept*", surcharge["concept"], key=f'{cont}_concept_{i}')
-                
-                with col2: 
-                    surcharge["currency"] = st.selectbox(f"Currency*", ['USD', 'COP'], key=f'{cont}_currency_{i}')
-                
+
+                with col2:
+                    surcharge["currency"] = st.selectbox(f"Currency*", ['USD', 'COP'], index=0 if surcharge["currency"] == "USD" else 1, key=f'{cont}_currency_{i}')
+
                 with col3:
                     surcharge["cost"] = st.number_input(f"Cost*", min_value=0.0, step=0.01, value=surcharge["cost"], key=f'{cont}_cost_{i}')
-                
+
                 with col4:
                     st.write(" ")
                     st.write(" ")
                     st.button("❌", key=f'remove_{cont}_{i}', on_click=remove_surcharge, args=(cont, i))
-                
-                if surcharge["currency"] == "USD":
-                    total_cop += surcharge["cost"] * trm
-                else:
-                    total_cop += surcharge["cost"]
-            
-            total_cop_rounded =  math.ceil(total_cop * 100) / 100
 
-            formatted_total = f"${total_cop_rounded:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".") + " COP"
+                if surcharge["currency"] == "USD":
+                    total += surcharge["cost"] * (trm if need_trm else 1)
+                else:
+                    total += surcharge["cost"]
 
             st.button(f"➕ Add Surcharges", key=f"add_{cont}", on_click=add_surcharge, args=(cont,))
+
+        total_rounded = math.ceil(total * 100) / 100
+        symbol = "$" if currency_total == "USD" else "$"
+        suffix = "USD" if currency_total == "USD" else "COP"
+        formatted_total = f"{symbol}{total_rounded:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".") + f" {suffix}"
+        st.markdown(f"### **Total: {formatted_total}**")
 
     request_data = {
         "no_solicitud": no_solicitud,
