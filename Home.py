@@ -18,7 +18,7 @@ def identity_role(email):
         "sales5@tradingsol.com", "bds@tradingsol.com", "insidesales@tradingsol.com", "sales6@tradingsol.com", "sales5@tradingsol.com"
     ]
 
-    inside =["pricing7@tradingsolutions.com", "traffic2@traingsolutions.com", "pricing7@tradingsol.com", "traffic2@traingsol.com"]
+    inside =["pricing7@tradingsolutions.com", "traffic2@traingsolutions.com", "customer3@tradingsolutions.com", "trainer@tradingsolutions.com"]
 
     if email in admin:
         return "admin"
