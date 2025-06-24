@@ -260,35 +260,29 @@ def show(role):
 
     if st.button('Send Information'):
 
-        errors = validate_request_data(request_data)
+        save_to_google_sheets(request_data, start_time)
 
-        if errors:
-            for error in errors:
-                st.error(error)
-        else:
-            save_to_google_sheets(request_data, start_time)
+        st.success("Information saved successfully!")
 
-            st.success("Information saved successfully!")
+        client_normalized = st.session_state.get("client", client).strip().lower() if client else ""
 
-            client_normalized = st.session_state.get("client", client).strip().lower() if client else ""
+        if client_normalized and all(c.strip().lower() != client_normalized for c in st.session_state["clients_list"]):
+            sheet = client_gcp.open_by_key(time_sheet_id)
+            worksheet = sheet.worksheet("clientes")
+            worksheet.append_row([st.session_state.get("client", client)])
+            st.session_state["clients_list"].append(client)
+            st.session_state["client"] = None
+            load_clients.clear()
+            st.rerun()
 
-            if client_normalized and all(c.strip().lower() != client_normalized for c in st.session_state["clients_list"]):
-                sheet = client_gcp.open_by_key(time_sheet_id)
-                worksheet = sheet.worksheet("clientes")
-                worksheet.append_row([st.session_state.get("client", client)])
-                st.session_state["clients_list"].append(client)
-                st.session_state["client"] = None
-                load_clients.clear()
-                st.rerun()
+        pdf_filename = generate_pdf(request_data)
 
-            pdf_filename = generate_pdf(request_data)
+        with open(pdf_filename, "rb") as f:
+            pdf_bytes = f.read()
 
-            with open(pdf_filename, "rb") as f:
-                pdf_bytes = f.read()
-
-            st.download_button(
-                label="Download PDF",
-                data=pdf_bytes,
-                file_name="Solicitud de Anticipo.pdf",
-                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-            )
+        st.download_button(
+            label="Download PDF",
+            data=pdf_bytes,
+            file_name="Solicitud de Anticipo.pdf",
+            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        )
